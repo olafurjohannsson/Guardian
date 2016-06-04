@@ -3,7 +3,7 @@ to monitor network traffic on multiple devices and
 aggregate data to a web frontend.
 
 
-author: olafur@johannsson.co
+author: olafur@johannsson.co<br>
 web: http://olafurjohannsson.com
 
 Components
