@@ -3,8 +3,9 @@ to monitor network traffic on multiple devices and
 aggregate data to a web frontend.
 
 
-author: olafur@johannsson.co<br>
-web: http://olafurjohannsson.com
+author: Ólafur Aron Jóhannsson<br>
+email: olafur@johannsson.co<br>
+website: http://olafurjohannsson.com<br>
 
 Components
   PacketSniffer (Sniff packets on a network device)
