@@ -3,50 +3,59 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Socket.IO Chat Example</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Guardian</title>
+    
+    <!-- Use other cdn or my own -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    
+    
+    <!-- use css file -->
+    <style type="text/css" rel="stylesheet">
+    
+    </style>
 </head>
 
 <body>
-    <ul class="pages">
-        <li class="chat page">
-            <div class="chatArea">
-                <ul class="messages"></ul>
+    
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li> 
+            </ul>    
+        </nav>    
+    </header>
+    
+    <div class="container-fluid">
+    
+        <div class="row">
+        
+            <div id="">
+                
             </div>
-            <input class="inputMessage" placeholder="Type here..." />
-        </li>
-        <li class="login page">
-            <div class="form">
-                <h3 class="title">What's your nickname?</h3>
-                <input class="usernameInput" type="text" maxlength="14" />
-                <input type="button" id="btn-submit" value="submit" />
-            </div>
-        </li>
-    </ul>
-
-    <script src="/socket.io-1.3.7.js"></script>
-    <script src="/jquery-1.11.1.js"></script>
-    <script>
-        //    var io = io( serverUri, {'transports': ['websocket', 'polling']});
-        var io = io('http://localhost:5000?userId=1', {'transports': ['websocket', 'polling']});
                         
-        var socket = io.connect('localhost', {
-            port: 5000
-        });
+        </div>
         
-        $('#btn-submit').click(function(){
-            console.log($('.usernameInput').val());
-            socket.emit('update', $('.usernameInput').val());
-            $('#m').val('');
-            $('.login').toggle();
-            return false;
+    </div>
+    
+    <!-- Use other cdn or my own -->
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+    
+    <!-- move to js file -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var socketIo = io('http://localhost:5000', {'transports': ['websocket', 'polling']});
+                            
+            var socket = socketIo.connect('localhost', {
+                port: 5000
+            });
+            
+            socket.emit('asdf', {});
+            
+            socket.on('update', function(msg){
+                console.log(msg);
+            });
         });
-        
-        socket.on('update', function(msg){
-            console.log('socket.on chatmessage', msg)
-            $('.messages').append($('<li>').text(msg));
-        });
-        
     </script>
 </body>
 
