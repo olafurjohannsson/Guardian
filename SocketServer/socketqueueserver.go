@@ -230,6 +230,14 @@ func (s *CrossOriginServer) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 			UserAgent: so.Request().UserAgent(),
 			Socket:    so,
 		}
+		
+		go func() {
+			for {
+				
+				so.Emit("update", time.Now())
+				time.Sleep(time.Second * 5);
+			}
+		}()
 
 		// Client
 		so.On("update", func(msg string) {
@@ -257,17 +265,22 @@ func (s *CrossOriginServer) ServeHTTP(rw http.ResponseWriter, req *http.Request)
 
 func main() {
 
+/*
 	log.Println("Starting up RabbitMQ consumer)")
 	c, err := NewConsumer(*uri, *exchange, *exchangeType, *queue, *bindingKey, *consumerTag)
 	if err != nil {
 		log.Fatalf("%s", err)
 	}
+*/
 
+	// Start SocketServer
 	log.Println("Listening on :5000 for socket.io")
 	http.ListenAndServe(":5000", &CrossOriginServer{})
 
+/*
 	log.Printf("Shutting down")
 	if err := c.Shutdown(); err != nil {
 		log.Fatalf("error during shutdown: %s", err)
 	}
+*/
 }
