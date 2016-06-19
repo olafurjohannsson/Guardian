@@ -41,15 +41,17 @@ type HttpRequest struct {
 }
 
 // Start receiving http requests on an output channel
-func Receive(monitor *HttpMonitor) chan HttpRequest {
-	// start a goroutine to start sending values into our channe
-	if monitor.requests == nil {
-		monitor.requests = make(chan HttpRequest, queue)
+func (monitor *HttpMonitor) Receive() chan HttpRequest {
 
+	if (monitor.requests == nil) {
+		monitor.requests = make(chan HttpRequest, queue)
 		// go listen..
-		go listen(monitor)
+		go monitor.listen()
 	}
 
+
+
+	// return channel to our requests
 	return monitor.requests
 }
 
@@ -57,15 +59,15 @@ func Receive(monitor *HttpMonitor) chan HttpRequest {
 func Start(device string) *HttpMonitor {
 	// Create monitor
 	return &HttpMonitor{
-		requests:  nil,
 		TimeStamp: time.Now(),
 		device:    device,
+		requests: nil,
 	}
 }
 // Start listen on a network interface
-func listen(monitor *HttpMonitor) {
+func (monitor *HttpMonitor) listen() {
 	defer close(monitor.requests)
-
+	
 	handle, err := pcap.OpenLive(monitor.device, 1024, false, 30 * time.Second)
 
 	if err != nil {
@@ -81,16 +83,19 @@ func listen(monitor *HttpMonitor) {
 
 	for packet := range packetSource.Packets() {
 		if packet != nil {
+
 			// if host is valid
 			host := parser.GetHost(packet)
 
 			if host != "" {
-
+				// new httprequest
 				req := HttpRequest{}
 				req.TimeStamp = time.Now()
 
 				// get host
-				req.Host = parser.GetHost(packet)
+				req.Host = host
+				req.Url = host
+
 				// get ips
 				req.SrcIP, req.DstIP = parser.GetSrcDstIPs(packet)
 
