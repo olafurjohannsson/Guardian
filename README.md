@@ -5,7 +5,7 @@ aggregate data to a web frontend.
 
 author: Ólafur Aron Jóhannsson<br>
 email: olafur@johannsson.co<br>
-website: http://olafurjohannsson.com<br>
+website: https://olafurjohannsson.com<br>
 
 Components
   PacketSniffer (Sniff packets on a network device)
